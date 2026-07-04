@@ -1,0 +1,158 @@
+
+
+/*==Fractal Made by ToxicGW/YasinGW in Open Shading Language==
+
+
+    In order to use this Fractal method, Render Engine MUST be set to "Cycles" AND Device as "CPU" (Recommended)
+
+    or if you have Invidia GPU with optix as GPU accelerator!
+    
+    
+    There are 3 Type of Fractal shapes as Default in order: Mandelbrot, Julia, Dendrite
+
+
+
+        # Structure:
+        
+            Iterations: choose How many iteration you like for getting more detailed and appropriate even in close shot
+            
+            Fractal Type: Choose which type of fractal you like; There are 3 default fractals starting with index "0"
+            
+            Zoom Out: Choose How much closer you want to see the Fractal shape (No need for custom coordinate :) Enjoy!)
+            
+            Note: if you have set the Fractal Type to "3" (Manual) then **X-axis** AND **Y-axis** values can be modified AND updated!
+
+            
+            
+            #Others: 
+                
+                No need for High samples for this method as it accounts for slower rendering output!
+                
+                Also other optimizations applied so you could copy the workflow setup for rendering faster!
+                
+                Thank you for you support and make sure follow for more!
+*/
+
+
+
+// #include <osl.h>
+
+shader Fractal
+(
+    int FractalType = 0 
+       [[ 
+        string widget = "mapper", 
+        string label = "Fractal Type",
+        string options = "Mandelbrot:0|Julia:1|Dendrite:2|Manual:3" 
+        ]],
+        
+    float cRealManual = 0.0 [[ string label = "X-axis", float min =-4.0, float max = 4.0 ]],
+    
+    float cImaginaryManual = 0.0 [[ string label = "Y-axis", float min =-4.0, float max = 4.0 ]],
+    
+    int MaxIterations = 100 [[ string label = "Max Iterations" ]],
+    
+    output float Factor = 0.0,
+    
+    point position = P,
+    
+    output color FractalColor =color(0,0,0) 
+)
+
+    
+  {
+                    //Initializing Variables such as complex numbers and real numbers
+                    
+                    float Real = 0.0;
+                    
+                    float Imaginary = 0.0;
+                    
+                    float cReal = 0.0; //Complex number along x-axis
+                    
+                    float cImaginary = 0.0; //Complex number along y-axis
+                    
+                    
+                      float posX = position[0];
+                      float posY = position[1];
+                      
+                      
+                      
+                          //State Setup based on Selected Dropdown Type
+                          
+                        //MANDELBROT
+                        if (FractalType == 0) 
+                        {
+                            cReal = posX;
+                            cImaginary = posY;
+                            Real = 0.0;
+                            Imaginary = 0.0;
+                        }
+                        
+                                //JULIA
+                                else if (FractalType == 1) 
+                                {
+                                    cReal = -0.7;
+                                    cImaginary = 0.27015;
+                                    Real = posX;
+                                    Imaginary = posY;
+                                }
+                                
+                                         //Dendrite
+                                            else if (FractalType == 2) 
+                                      {
+                                        cReal = -0.8;
+                                        cImaginary = 0.2;
+                                        Real = posX;
+                                        Imaginary = posY;
+                                       }
+                                 
+                                            //Manual
+                                            else 
+                                            {
+                                                cReal = cRealManual;
+                                                cImaginary = cImaginaryManual;
+                                                Real = posX;
+                                                Imaginary = posY;
+                                             }
+                                      
+                                    
+                                    
+             //Mandelbrot and Julia set formula Z = Z^2 + C
+             
+            for (float Iterations = 0; Iterations < MaxIterations; Iterations++)
+                {
+                
+                    float RealTemp = Real;  //Note==>for preventing the overwrite where old values of Real get lost<==
+                    
+                    Real = Real*Real - Imaginary*Imaginary + cReal;
+                    
+                    Imaginary = 2*RealTemp*Imaginary + cImaginary;
+                
+                
+                    //Normalizing and Calculating whether pixel values out of the shape or no
+                    
+                    if (sqrt(Real*Real + Imaginary*Imaginary) > 4)
+                    {
+                        FractalColor = Iterations/MaxIterations;
+                    
+                    
+                        //Continuous smooth coloring (Renormalizing Iterations)
+                    
+                        if (Iterations < MaxIterations) 
+                            {
+                            
+                            float log_zn = log(Real*Real + Imaginary*Imaginary) / 2.0;
+                            
+                            float nu = log(log_zn / log(2.0)) / log(2.0);
+                            
+                            Factor = (Iterations + 1.0 - nu) / MaxIterations;
+                            
+                             } else {
+                                    Factor = 0.0;
+                                    }
+                                    
+                                   break;
+                       }
+                }
+                                
+  }
