@@ -1,7 +1,7 @@
 #  FractalGW: Mandelbrot & Julia Sets (OSL)
 
 
-<video src="https://github.com/ToxicGW/FractalGW/blob/main/FractalGW-Overview.mp4" width="100%" autoplay loop muted controls></video>
+<video src="https://github.com/ToxicGW/FractalGW/raw/main/FractalGW-Overview.mp4" width="100%" autoplay loop muted controls></video>
 
 🖌A custom Open Shading Language (OSL) shader designed for Blender's cycle engine. This project uses precise mathematical loops to generate both the Mandelbrot set and infinite variations of the Julia set natively within your shader node tree. 
 
@@ -58,7 +58,8 @@ You have full control over the fractal generation via the following input slider
 
 * `FractalGW.osl` - The core Open Shading Language script.
 * `FractalGW_demo.blend` - A pre-built Blender scene file with the OSL script loaded and linked to a materials setup.
-* `.gitignore` - Custom rules to ignore compiled shader binaries (`*.oso`) and auto-saved backup files (`*.blend1`).
+* `FractalGW-Overview.mp4` - Visual demonstration of How to get started with the _.blend file_.
+* `blend.gitignore` - Custom rules to ignore compiled shader binaries (`*.oso`) and auto-saved backup files (`*.blend1`).
 
 ---
 
