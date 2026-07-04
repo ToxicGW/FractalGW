@@ -1,0 +1,57 @@
+# === Blender Temporary & Auto-Save Files ===
+
+
+*.blend1
+*.blend2
+*.blend3
+*.blend4
+*.blend5
+*.blend@
+*.blend_backup
+x264_predict.txt
+
+
+
+# === Open Shading Language (OSL) Compiled Binaries ===
+
+
+#Ignore compiled bytecode, only track human-readable code
+
+*.oso
+
+
+
+# === Render Caches & Image Outputs ===
+# heavy animation frames out of Git history
+/renders/
+/output/
+*.png
+*.exr
+*.jpg
+*.jpeg
+*.mp4
+*.mov
+.bfont.ttf
+
+
+
+
+# === GitHub Global OS Log Files ===
+
+
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+
+
+# === Development IDE Files ===
+
+
+.vscode/
+*.swp
+*~
